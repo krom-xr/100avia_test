@@ -45,13 +45,25 @@ angular.module('TEST', [])
             }
         };
         return items;
+    })
+
+    .controller("ListCtrl", function($scope, ItemsList) {
+        $scope.list = ItemsList;
+
+
     }).factory('ItemsList', function() {
         var list = {
             items: [
-            ]
+                {key: 'keyfds', value: 'vasdfalue', full_info: "yesssadf dd", show_full: false},
+                {key: 'keyfds', value: 'vasdfalue', full_info: "yesssadf dd", show_full: true}
+            ],
+            showFull: function(item, state) {
+                item.show_full = state;
+            },
         };
         return list;
     })
+
     .directive("ngWith", function() {
         var createScopes = function(scope, scope_vars_ob) {
             if (!scope_vars_ob) { return; }
