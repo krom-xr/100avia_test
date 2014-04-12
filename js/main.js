@@ -2,8 +2,13 @@
 angular.module('TEST', [])
     .controller("MainCtrl", function($scope, ItemsSrv) {
         $scope.items = ItemsSrv;
+    })
 
-    }).factory('ItemsSrv', function($timeout, $rootScope, ItemsList) {
+    .controller("ListCtrl", function($scope, ItemsList) {
+        $scope.list = ItemsList;
+    })
+
+    .factory('ItemsSrv', function($timeout, $rootScope, ItemsList) {
         var item_example = {key: {value: ""}, value: {value:""}};
 
 
@@ -31,6 +36,7 @@ angular.module('TEST', [])
                         data.push({key: item.key.value, value: item.value.value});
                     }
                 });
+                items.items = [_.cloneDeep(item_example)];
 
                 $.ajax({
                     url: "http://httpbin.org/post",
@@ -44,7 +50,6 @@ angular.module('TEST', [])
 
                             ItemsList.items.push({key: key, value: value, full_info: full_info});
                         });
-                        items.items = [_.cloneDeep(item_example)];
                         $rootScope.$$phase || $rootScope.$apply();
                     }
                 });
@@ -53,13 +58,9 @@ angular.module('TEST', [])
         return items;
     })
 
-    .controller("ListCtrl", function($scope, ItemsList) {
-        $scope.list = ItemsList;
-
-
-    }).factory('ItemsList', function() {
+    .factory('ItemsList', function() {
         var list = {
-            items: [ 
+            items: [
                 //{key: 'keyfds', value: 'vasdfalue', full_info: "yesssadf dd", show_full: false},
             ],
             showFull: function(item, state) {
@@ -87,4 +88,3 @@ angular.module('TEST', [])
             }
         };
     });
-    
