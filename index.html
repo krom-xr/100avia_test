@@ -2,11 +2,12 @@
 <html ng-app="TEST">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
     <script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="https://raw.github.com/lodash/lodash/2.4.1/dist/lodash.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-
     <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
 
     <title>Index</title>
@@ -51,12 +52,10 @@
                         <tr>
                             <th>Ключ</th>
                             <th>Значение</th>
-                            <th style="width: 20px">x</th>
+                            <th style="width: 20px"></th>
                         </tr>
 
-                        <tr ng-hide="list.items.length">
-                            <td colspan="3">нет данных</td>
-                        </tr>
+                        <tr ng-hide="list.items.length"><td colspan="3">нет данных</td></tr>
 
                         <tbody ng-repeat="item in list.items">
                             <tr ng-if="!item.show_full" >
@@ -68,26 +67,16 @@
                             <tr ng-if="item.show_full">
                                 <td colspan='2'>
                                     <div class="info">
-                                        <pre>
-asdffdsa
-asdf
-fdsa
-asd
-                                        </pre>
+                                        <pre style="max-width: 500px">{{ item.full_info }}</pre>
                                     </div>
                                 </td>
                                 <td><a href="#" ng-click="list.showFull(item, false)"><span class="glyphicon glyphicon-eye-close"></span></a></td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
-    
-
-
 </body>
 </html>

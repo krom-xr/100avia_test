@@ -3,8 +3,9 @@ angular.module('TEST', [])
     .controller("MainCtrl", function($scope, ItemsSrv) {
         $scope.items = ItemsSrv;
 
-    }).factory('ItemsSrv', function($timeout) {
+    }).factory('ItemsSrv', function($timeout, $rootScope, ItemsList) {
         var item_example = {key: {value: ""}, value: {value:""}};
+
 
         var items = {
             items: [_.cloneDeep(item_example)],
@@ -22,9 +23,7 @@ angular.module('TEST', [])
                 $timeout(function() { field.error = false; }, 1000);
             },
             save: function() {
-
                 if (this.items.length === 1 && this.checkItemError(this.items[0])) { return; }
-
 
                 var data = [];
                 _.each(this.items, function(item) {
@@ -38,10 +37,17 @@ angular.module('TEST', [])
                     method: 'POST',
                     data: {data: data},
                     success: function(data) {
-                        console.log(data);
+                        var full_info = JSON.stringify(data, null, 4);
+                        _.each(_.range(0, Object.keys(data.form).length/2), function(i) {
+                            var key = data.form["data[" + i + "][key]"];
+                            var value = data.form["data[" + i + "][value]"];
+
+                            ItemsList.items.push({key: key, value: value, full_info: full_info});
+                        });
+                        items.items = [_.cloneDeep(item_example)];
+                        $rootScope.$$phase || $rootScope.$apply();
                     }
                 });
-
             }
         };
         return items;
@@ -53,9 +59,8 @@ angular.module('TEST', [])
 
     }).factory('ItemsList', function() {
         var list = {
-            items: [
-                {key: 'keyfds', value: 'vasdfalue', full_info: "yesssadf dd", show_full: false},
-                {key: 'keyfds', value: 'vasdfalue', full_info: "yesssadf dd", show_full: true}
+            items: [ 
+                //{key: 'keyfds', value: 'vasdfalue', full_info: "yesssadf dd", show_full: false},
             ],
             showFull: function(item, state) {
                 item.show_full = state;
@@ -78,7 +83,6 @@ angular.module('TEST', [])
                         var scope_vars_ob = scope.$eval(attrs.ngWith);
                         createScopes(scope, scope_vars_ob);
                     });
-
                 };
             }
         };
